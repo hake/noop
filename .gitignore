@@ -94,8 +94,9 @@ export.zip
 __pycache__/
 *.pyc
 
-# Local release artifacts (zips/ipas built for upload; never tracked)
-dist/
+# Local release artifacts at the repo root (zips/ipas built for upload; never tracked).
+# Anchored so android/dist/ can hold the checked-in preview APK.
+/dist/
 err.txt
 
 # Oura OAuth app credentials (BYO; never committed)

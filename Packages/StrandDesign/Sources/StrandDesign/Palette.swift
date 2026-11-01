@@ -324,10 +324,10 @@ public enum StrandPalette {
 
     // MARK: Scenic background (NEW) — detail-screen hero gradient + starfield.
     /// Radial canvas: lit center → deep edge. Used by `ScenicHeroBackground` (warm-lit on light).
-    public static let scenicCenter     = Color(light: "#FBF6EA", dark: "#1C2128")
-    public static let scenicEdge       = Color(light: "#EDE6D6", dark: "#121518")
+    public static let scenicCenter     = Color(light: "#F8F7F4", dark: "#22242C")
+    public static let scenicEdge       = Color(light: "#F6F5F2", dark: "#1E1F24")
     /// Star tint for the scenic starfield (very faint on light; the hero suppresses stars there).
-    public static let scenicStar       = Color(light: "#D8CDB6", dark: "#C8CFD8")
+    public static let scenicStar       = Color(light: "#D8D6D0", dark: "#C8CFD8")
 
     /// Frosted-card tint endpoints (white→warm on light; the accent wash sits over them).
     public static let cardFillTop      = Color(light: "#FFFFFF", dark: "#15243C")

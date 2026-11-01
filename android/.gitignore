@@ -1,5 +1,7 @@
 # Built application files / Gradle
 *.apk
+# Checked-in colorful-card preview build (see dist/README.md).
+!dist/*.apk
 *.aar
 *.ap_
 *.aab
