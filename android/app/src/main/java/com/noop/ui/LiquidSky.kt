@@ -35,8 +35,8 @@ import kotlin.random.Random
 // theme canvas colour over the lower half so the sky dissolves into the page with no seam).
 //
 // The one theme-aware substitution the iOS source itself makes: the SETTLE colour is the canvas the
-// body dissolves into. iOS hard-coded (18,21,24) dark / (242,242,247) light; here it reads the real
-// Android canvas token [Palette.surfaceBase] (dark #1E1F24; light #F6F5F2),
+// body dissolves into. iOS hard-coded the dark/light settle; here it reads Palette.surfaceBase
+// (dark #1E1F24, light #F6F5F2), theme-aware so the sky meets the page with no seam.
 
 /** One keyframe of the day-cycle sky: the hour it sits at, the three vertical gradient stops
  *  (top/mid/horizon), and how starry / how warm the sky is there. */
@@ -253,7 +253,7 @@ private fun androidx.compose.ui.graphics.drawscope.DrawScope.renderLiquidSky(
 }
 
 /** The canvas colour the sky dissolves into — the active theme's surfaceBase (dark #1E1F24 / light
- *  #F6F5F2), read live so a theme flip re-resolves it.
+ *  #F6F5F2), read live so a theme flip re-resolves it. */
 private val liquidSettleColor: Color
     get() = Palette.surfaceBase
 

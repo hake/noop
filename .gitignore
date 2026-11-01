@@ -57,6 +57,8 @@ android/.idea/
 android/*.iml
 android/app/release/
 *.apk
+# Checked-in preview build for the colorful-card redesign (see android/dist/README.md).
+!android/dist/*.apk
 *.aab
 *.keystore
 *.jks

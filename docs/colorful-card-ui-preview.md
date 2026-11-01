@@ -36,11 +36,17 @@ Same as macOS with scheme **NOOPiOS** and a simulator destination. Liquid Today:
 
 ### Android
 
+A prebuilt Full debug APK is checked in at:
+
+`android/dist/NOOP-12.1.0-colorful-card-full-debug.apk`
+
+Install it with `adb install -r` (package id `com.noop.whoop.debug`). Rebuild from source with:
+
 ```bash
 cd android && ./gradlew assembleFullDebug
 ```
 
-Install the Full debug APK. **Today** uses the liquid header sky and shared `NoopCard` components.
+**Today** uses the liquid header sky and shared `NoopCard` components.
 
 ## Key files
 
