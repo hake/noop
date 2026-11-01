@@ -37,8 +37,11 @@ struct StrandiOSApp: App {
     /// double-tap handler. See `LiftSessionController`.
     @StateObject private var liftSession: LiftSessionController
     @Environment(\.scenePhase) private var scenePhase
-    /// Appearance preference (System/Light/Dark). Default follows the OS; the Settings picker writes it.
-    @AppStorage(AppearanceMode.storageKey) private var appearanceRaw = AppearanceMode.system.rawValue
+    /// Runs before the appearance `@AppStorage` is created so an upgraded install
+    /// reads Light instead of the old system default.
+    private let colorfulCardAppearanceMigration: Void = AppearanceMode.migrateColorfulCardDefault()
+    /// Appearance preference (System/Light/Dark). Light is the default; the Settings picker writes it.
+    @AppStorage(AppearanceMode.storageKey) private var appearanceRaw = AppearanceMode.light.rawValue
     /// Chart data-colour style (Titanium / Classic throwback). Re-colours gauges + charts.
     @AppStorage(ChartStyle.storageKey) private var chartStyleRaw = ChartStyle.titanium.rawValue
     /// Chrome accent colour (mint / WHOOP blue / custom). Chrome only — never the data colour worlds.
@@ -52,6 +55,7 @@ struct StrandiOSApp: App {
     @AppStorage(UnitPrefs.systemKey) private var unitSystemRaw = UnitSystem.metric.rawValue
 
     init() {
+        _ = colorfulCardAppearanceMigration
         // #1008: pin the pre-change Overnight-only default for existing installs before
         // anything reads it. Idempotent; a no-op on fresh installs and after the first launch.
         PuffinExperiment.migrateContinuousHrvOvernightDefault()

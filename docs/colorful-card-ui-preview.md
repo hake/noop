@@ -20,7 +20,7 @@ xcodebuild -project Strand.xcodeproj -scheme Strand \
   -destination 'platform=macOS' CODE_SIGNING_ALLOWED=NO build
 ```
 
-Open **Today** (Liquid Today is on by default). Toggle **Settings → Appearance → Light** to see the colorful-card light theme.
+Open **Today** (Liquid Today is on by default). The colorful-card **Light** theme is the default, including for an update that was previously following the system. **Settings → Appearance** can still switch to Dark or System.
 
 DEBUG screenshot harness (single screen):
 

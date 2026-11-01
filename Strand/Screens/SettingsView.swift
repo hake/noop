@@ -127,7 +127,7 @@ struct SettingsView: View {
     // ("AppIcon-Navy"). Display-only preference; the live switch goes through setAlternateIconName.
     @AppStorage("appIcon.alt") private var useNavyIcon = false
     // Light/Dark/System theme. Read by both app roots' .preferredColorScheme; default follows the OS.
-    @AppStorage(AppearanceMode.storageKey) private var appearanceRaw = AppearanceMode.system.rawValue
+    @AppStorage(AppearanceMode.storageKey) private var appearanceRaw = AppearanceMode.light.rawValue
     // App-owned copy language. Apple binds a bundle localization at process launch, so this writes the
     // standard AppleLanguages override and takes effect after the user reopens NOOP.
     @AppStorage(AppLanguage.storageKey) private var appLanguageRaw = AppLanguage.system.rawValue
@@ -1091,7 +1091,7 @@ struct SettingsView: View {
         SettingsSection(
             icon: "circle.lefthalf.filled",
             title: "Appearance",
-            blurb: "Choose Light, Dark, or follow your system. Dark is the signature near-black; Light keeps the same clean look on a bright canvas."
+            blurb: "Light is the default. Choose Dark, or follow your system, any time."
         ) {
             VStack(spacing: 0) {
                 // App-owned copy language. Apple binds a bundle localization at process launch, so this

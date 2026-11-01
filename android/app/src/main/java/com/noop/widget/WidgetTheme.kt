@@ -19,7 +19,7 @@ internal object WidgetTheme {
 
     fun isDark(context: Context): Boolean = runCatching {
         when (context.getSharedPreferences("noop_prefs", Context.MODE_PRIVATE)
-            .getString("theme.appearance", "system")) {
+            .getString("theme.appearance", "light")) {
             "light" -> false
             "dark" -> true
             else -> (context.resources.configuration.uiMode and

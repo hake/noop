@@ -5,6 +5,7 @@
 - Package: `com.noop.whoop.debug`
 - Version: `12.1.0-debug` (versionCode 558)
 - Signed with the default debug key
+- Light colorful-card theme is the default (an update that was following the system switches to Light once)
 - Install: `adb install -r NOOP-12.1.0-colorful-card-full-debug.apk`
 
 This is a sideload preview, not a release build. Rebuild with `./gradlew assembleFullDebug` from `android/`.

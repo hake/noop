@@ -2082,7 +2082,7 @@
     <string name="onboarding_notifications_status_body">NOOP holds the Bluetooth link open in the background so your data stays current. One low-priority notification shows it\'s connected. Nothing noisy.</string>
     <string name="onboarding_notifications_alerts">Wrist alerts (strain nudges and your smart alarm) arrive as notifications too.</string>
     <string name="onboarding_notifications_permission">When Android asks, allow notifications so NOOP can keep you informed.</string>
-    <string name="onboarding_appearance_subtitle">NOOP follows your system by default, or pick Light or Dark. You can change this any time in Settings → Appearance.</string>
+    <string name="onboarding_appearance_subtitle">Light is the default. You can pick Dark, or follow your system, any time in Settings → Appearance.</string>
     <string name="onboarding_system">System</string>
     <string name="onboarding_theme_follow_system">Following your phone\'s light/dark setting.</string>
     <string name="onboarding_theme_light_description">Deep blue accent on warm paper.</string>
@@ -2136,7 +2136,7 @@
     <string name="settings_language">Language</string>
     <string name="settings_choose_language">Choose language</string>
     <string name="settings_language_system">System default</string>
-    <string name="settings_appearance_detail">Choose Light, Dark, or follow your system. Dark is the signature near-black; Light keeps the same clean look on a bright canvas.</string>
+    <string name="settings_appearance_detail">Light is the default. Choose Dark, or follow your system, any time.</string>
     <string name="settings_theme_light">Light</string>
     <string name="settings_theme_dark">Dark</string>
     <string name="settings_chart_default">Default</string>
