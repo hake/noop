@@ -116,8 +116,15 @@ public enum StrandPalette {
     // Light, so the hero fits in with the other cards. Its own text uses the regular text*/tint tokens
     // (which flip) — NOT onDark*, which stays fixed for the genuinely-always-dark SKY backdrop
     // (ScreenScaffold's over-sky title). 8-digit hex = RRGGBBAA (alpha last).
-    public static let heroFill   = Color(light: "FFFFFFD9", dark: "0D0E14CC")
-    public static let heroBorder = Color(light: "0000001A", dark: "FFFFFF1C")
+    public static let heroFill   = Color(light: "E8F4FFD9", dark: "2A2C34CC")
+    public static let heroBorder = Color(light: "00000014", dark: "FFFFFF1C")
+
+    // MARK: Pastel metric tiles (colorful-card language — decorative surfaces only)
+    public static let pastelSky        = NoopVisualStyle.pastelSky
+    public static let pastelMint       = NoopVisualStyle.pastelMint
+    public static let pastelPeach      = NoopVisualStyle.pastelPeach
+    public static let pastelCoral      = NoopVisualStyle.pastelCoral
+    public static let pastelSoftOrange = NoopVisualStyle.pastelSoftOrange
 
     // MARK: Glow — ambient bloom behind heroes / charts (additive on dark; faint warm on light)
     public static let glowAmbient    = NoopVisualStyle.mintGlow.opacity(0.28)

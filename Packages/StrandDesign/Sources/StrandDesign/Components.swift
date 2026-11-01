@@ -303,8 +303,8 @@ public struct TrendChip: View {
             Text(text).font(StrandFont.captionNumber).lineLimit(1)
         }
         .foregroundStyle(color)
-        .padding(.horizontal, 6).padding(.vertical, 2)
-        .background(color.opacity(0.14), in: Capsule(style: .continuous))
+        .padding(.horizontal, 10).padding(.vertical, 4)
+        .background(color.opacity(0.20), in: Capsule(style: .continuous))
         .accessibilityHidden(true)
     }
 }

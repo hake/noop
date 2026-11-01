@@ -1,33 +1,40 @@
 import SwiftUI
 
-// MARK: - NOOP visual foundation
+// MARK: - NOOP visual foundation (colorful-card aesthetic)
 //
-// These tokens describe the visual treatment used by NOOP's existing views. They deliberately
-// contain no navigation, state, or domain semantics: screens keep their current hierarchy and data
-// bindings, while cards, gauges, typography, and chrome share one maintainable source of truth.
+// Soft off-white canvases, highly rounded white cards, pastel accent washes, and subtle elevation.
+// Screens keep their hierarchy and data bindings; cards, gauges, typography, and chrome share
+// these tokens.
 
 public enum NoopVisualStyle {
-    // Neutral, low-chroma surfaces sampled from the supplied dark-mode reference.
-    public static let canvas = Color(light: "#F3F4F6", dark: "#1D1E23")
-    public static let surface = Color(light: "#FFFFFF", dark: "#2A2C34")
-    public static let surfaceTop = Color(light: "#FFFFFF", dark: "#30323B")
-    public static let surfaceBottom = Color(light: "#F4F5F7", dark: "#282A31")
-    public static let inset = Color(light: "#E8E9ED", dark: "#23252C")
+    // Light: warm off-white field; dark: soft charcoal (not pure black).
+    public static let canvas = Color(light: "#F6F5F2", dark: "#1E1F24")
+    public static let surface = Color(light: "#FFFFFF", dark: "#2E3038")
+    public static let surfaceTop = Color(light: "#FFFFFF", dark: "#33353E")
+    public static let surfaceBottom = Color(light: "#FAFAF8", dark: "#2A2C34")
+    public static let inset = Color(light: "#EEECE8", dark: "#25272E")
 
-    public static let border = Color(light: "#D8DAE0", dark: "#373A44")
-    public static let borderHighlight = Color(light: "#FFFFFF", dark: "#4B4E59")
-    public static let divider = Color(light: "#E4E5E9", dark: "#383A43")
+    public static let border = Color(light: "#E8E6E1", dark: "#3A3D48")
+    public static let borderHighlight = Color(light: "#FFFFFF", dark: "#4A4E5A")
+    public static let divider = Color(light: "#ECEAE5", dark: "#353840")
 
-    public static let primaryText = Color(light: "#17181C", dark: "#F7F7FA")
-    public static let secondaryText = Color(light: "#555861", dark: "#C3C4CA")
-    public static let tertiaryText = Color(light: "#7D808A", dark: "#7D7F88")
+    public static let primaryText = Color(light: "#141518", dark: "#F7F7FA")
+    public static let secondaryText = Color(light: "#5C6068", dark: "#C3C4CA")
+    public static let tertiaryText = Color(light: "#8A8E98", dark: "#7D7F88")
 
     public static let mint = Color(light: "#149A78", dark: "#69DDB8")
     public static let mintDeep = Color(light: "#0D765C", dark: "#13A982")
     public static let mintGlow = Color(light: "#38C99E", dark: "#54E6BD")
 
-    public static let cardRadius: CGFloat = 22
-    public static let compactRadius: CGFloat = 16
+    /// Pastel card accents (mockup-inspired; use for filled metric/challenge tiles).
+    public static let pastelSky = Color(light: "#D6EBFF", dark: "#1E3A5F")
+    public static let pastelMint = Color(light: "#D4F5E8", dark: "#1A4034")
+    public static let pastelPeach = Color(light: "#FFE4D6", dark: "#4A3028")
+    public static let pastelCoral = Color(light: "#FFD6CC", dark: "#4A2824")
+    public static let pastelSoftOrange = Color(light: "#FFE8CC", dark: "#4A3820")
+
+    public static let cardRadius: CGFloat = 28
+    public static let compactRadius: CGFloat = 20
     public static let pillRadius: CGFloat = 999
     public static let pagePadding: CGFloat = 16
     public static let cardPadding: CGFloat = 16
@@ -35,16 +42,13 @@ public enum NoopVisualStyle {
     public static let sectionGap: CGFloat = 26
 }
 
-/// Shared card/panel treatment: a solid surface on iOS, gradient and soft elevation elsewhere.
-/// `tint` is intentionally faint so metric identity never turns the whole card into a coloured tile.
+/// Shared card/panel treatment: white cards with pastel washes, soft hairlines, and gentle elevation.
 public struct NoopPanelSurface: View {
     public var tint: Color?
     public var cornerRadius: CGFloat
     public var elevated: Bool
     public var surfaceOpacity: Double
-    #if !os(iOS)
     @Environment(\.colorScheme) private var scheme
-    #endif
 
     public init(
         tint: Color? = nil,
@@ -60,18 +64,11 @@ public struct NoopPanelSurface: View {
 
     public var body: some View {
         let shape = RoundedRectangle(cornerRadius: cornerRadius, style: .continuous)
-        #if os(iOS)
-        // Scrolling stacks contain many panels. Layered translucent gradients and blurred shadows
-        // multiply their compositing work, so iOS uses one theme-aware fill and a thin tinted rim.
-        // This changes decorative depth only; card geometry and the design-system colors stay the same.
-        shape
-            .fill(NoopVisualStyle.surface)
-            .overlay(shape.strokeBorder(
-                tint?.opacity(0.14) ?? NoopVisualStyle.borderHighlight.opacity(elevated ? 0.9 : 0.65),
-                lineWidth: 0.8
-            ))
-            .opacity(surfaceOpacity)
-        #else
+        let light = scheme == .light
+        let shadowOpacity = light ? (elevated ? 0.14 : 0.08) : (elevated ? 0.34 : 0.16)
+        let shadowRadius: CGFloat = light ? (elevated ? 20 : 12) : (elevated ? 18 : 9)
+        let shadowY: CGFloat = light ? (elevated ? 8 : 4) : (elevated ? 10 : 5)
+
         shape
             .fill(
                 LinearGradient(
@@ -82,9 +79,20 @@ public struct NoopPanelSurface: View {
             )
             .overlay {
                 if let tint {
+                    shape.fill(tint.opacity(light ? 0.28 : 0.14))
                     shape.fill(
                         LinearGradient(
-                            colors: [tint.opacity(0.055), tint.opacity(0.012), .clear],
+                            colors: [
+                                NoopVisualStyle.surface.opacity(light ? 0.62 : 0.78),
+                                NoopVisualStyle.surface.opacity(light ? 0.72 : 0.85),
+                            ],
+                            startPoint: .topLeading,
+                            endPoint: .bottomTrailing
+                        )
+                    )
+                    shape.fill(
+                        LinearGradient(
+                            colors: [tint.opacity(0.10), tint.opacity(0.02), .clear],
                             startPoint: .topLeading,
                             endPoint: .bottomTrailing
                         )
@@ -93,27 +101,23 @@ public struct NoopPanelSurface: View {
             }
             .overlay(
                 shape.strokeBorder(
-                    LinearGradient(
-                        colors: [NoopVisualStyle.borderHighlight.opacity(0.72), NoopVisualStyle.border.opacity(0.52)],
-                        startPoint: .top,
-                        endPoint: .bottom
-                    ),
+                    light
+                        ? NoopVisualStyle.border.opacity(elevated ? 0.95 : 0.75)
+                        : NoopVisualStyle.borderHighlight.opacity(0.55),
                     lineWidth: 0.8
                 )
             )
             .shadow(
-                color: scheme == .dark ? .black.opacity(elevated ? 0.34 : 0.18) : .black.opacity(0.10),
-                radius: elevated ? 18 : 9,
+                color: Color(hex: "#1A2230").opacity(shadowOpacity),
+                radius: shadowRadius,
                 x: 0,
-                y: elevated ? 10 : 5
+                y: shadowY
             )
             .opacity(surfaceOpacity)
-        #endif
     }
 }
 
-/// Shared edge-to-edge chrome for sheet and split-view headers. Unlike a card it has no
-/// rounded outline or elevation, but it uses the same top-lit surface ramp and divider token.
+/// Shared edge-to-edge chrome for sheet and split-view headers.
 public struct NoopChromeSurface: View {
     public init() {}
 
