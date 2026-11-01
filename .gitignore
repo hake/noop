@@ -57,6 +57,8 @@ android/.idea/
 android/*.iml
 android/app/release/
 *.apk
+# Checked-in preview build for the colorful-card redesign (see android/dist/README.md).
+!android/dist/*.apk
 *.aab
 *.keystore
 *.jks
@@ -92,8 +94,9 @@ export.zip
 __pycache__/
 *.pyc
 
-# Local release artifacts (zips/ipas built for upload; never tracked)
-dist/
+# Local release artifacts at the repo root (zips/ipas built for upload; never tracked).
+# Anchored so android/dist/ can hold the checked-in preview APK.
+/dist/
 err.txt
 
 # Oura OAuth app credentials (BYO; never committed)

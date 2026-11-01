@@ -139,7 +139,7 @@ fun Modifier.frostedCardSurface(
         // off the warm-paper canvas with a soft drop shadow — the hairline alone is too faint on paper.
         .then(
             if (Palette.isLight)
-                Modifier.shadow(elevation = (6f * op).dp, shape = RoundedCornerShape(cornerRadius), clip = false)
+                Modifier.shadow(elevation = (8f * op).dp, shape = RoundedCornerShape(cornerRadius), clip = false)
             else Modifier
         )
         .drawBehind {
@@ -154,17 +154,16 @@ fun Modifier.frostedCardSurface(
                 drawRoundRect(color = fill, cornerRadius = corner)
                 drawRoundRect(color = border, cornerRadius = corner, style = Stroke(width = 1.dp.toPx()))
             } else {
-                // TINTED card (iOS parity, 2026-06-23 "synthesis has the old blue style"): a FLAT raised
-                // surface — the SAME WHOOP grey as the neutral card, NO navy bevel gradient — carrying only
-                // a whisper of the domain tint as a diagonal hue wash so it stays in the grey family.
-                // 1) Flat raised fill — identical to the neutral card.
-                drawRoundRect(color = fill, cornerRadius = corner)
-                // 2) Faint diagonal accent hue wash over the flat fill (matches iOS FrostedCardSurface ~0.05).
+                // TINTED card: pastel wash under a white surface (colorful-card mockups).
+                val pastelAlpha = if (Palette.isLight) 0.28f else 0.14f
+                val veilAlpha = if (Palette.isLight) 0.62f else 0.78f
+                drawRoundRect(color = tint.copy(alpha = pastelAlpha * washStrength * op), cornerRadius = corner)
+                drawRoundRect(color = fill.copy(alpha = veilAlpha * op), cornerRadius = corner)
                 drawRoundRect(
                     brush = Brush.linearGradient(
                         colorStops = arrayOf(
-                            0.0f to tint.copy(alpha = 0.05f * washStrength * op),
-                            0.5f to tint.copy(alpha = 0.015f * washStrength * op),
+                            0.0f to tint.copy(alpha = 0.10f * washStrength * op),
+                            0.5f to tint.copy(alpha = 0.02f * washStrength * op),
                             1.0f to Color.Transparent,
                         ),
                         start = Offset(0f, 0f),
@@ -172,7 +171,6 @@ fun Modifier.frostedCardSurface(
                     ),
                     cornerRadius = corner,
                 )
-                // 3) Plain 1px hairline (no accent bias) — matches the neutral card.
                 drawRoundRect(color = border, cornerRadius = corner, style = Stroke(width = 1.dp.toPx()))
             }
         }
@@ -399,9 +397,9 @@ fun StatePill(
     Row(
         modifier = modifier
             .clip(shape)
-            .background(tone.color.copy(alpha = 0.12f))
-            .border(1.dp, tone.color.copy(alpha = 0.32f), shape)
-            .padding(horizontal = 10.dp, vertical = 5.dp)
+            .background(tone.color.copy(alpha = 0.18f))
+            .border(1.dp, tone.color.copy(alpha = 0.22f), shape)
+            .padding(horizontal = 12.dp, vertical = 6.dp)
             .semantics { contentDescription = title },
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(6.dp),
@@ -466,8 +464,8 @@ fun TrendChip(text: String, color: Color = Palette.textTertiary, modifier: Modif
     Row(
         modifier = modifier
             .clip(RoundedCornerShape(50))
-            .background(color.copy(alpha = 0.14f))
-            .padding(horizontal = 6.dp, vertical = 2.dp),
+            .background(color.copy(alpha = 0.20f))
+            .padding(horizontal = 10.dp, vertical = 4.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(3.dp),
     ) {

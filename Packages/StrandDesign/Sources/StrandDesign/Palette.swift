@@ -116,8 +116,15 @@ public enum StrandPalette {
     // Light, so the hero fits in with the other cards. Its own text uses the regular text*/tint tokens
     // (which flip) — NOT onDark*, which stays fixed for the genuinely-always-dark SKY backdrop
     // (ScreenScaffold's over-sky title). 8-digit hex = RRGGBBAA (alpha last).
-    public static let heroFill   = Color(light: "FFFFFFD9", dark: "0D0E14CC")
-    public static let heroBorder = Color(light: "0000001A", dark: "FFFFFF1C")
+    public static let heroFill   = Color(light: "E8F4FFD9", dark: "2A2C34CC")
+    public static let heroBorder = Color(light: "00000014", dark: "FFFFFF1C")
+
+    // MARK: Pastel metric tiles (colorful-card language — decorative surfaces only)
+    public static let pastelSky        = NoopVisualStyle.pastelSky
+    public static let pastelMint       = NoopVisualStyle.pastelMint
+    public static let pastelPeach      = NoopVisualStyle.pastelPeach
+    public static let pastelCoral      = NoopVisualStyle.pastelCoral
+    public static let pastelSoftOrange = NoopVisualStyle.pastelSoftOrange
 
     // MARK: Glow — ambient bloom behind heroes / charts (additive on dark; faint warm on light)
     public static let glowAmbient    = NoopVisualStyle.mintGlow.opacity(0.28)
@@ -317,10 +324,10 @@ public enum StrandPalette {
 
     // MARK: Scenic background (NEW) — detail-screen hero gradient + starfield.
     /// Radial canvas: lit center → deep edge. Used by `ScenicHeroBackground` (warm-lit on light).
-    public static let scenicCenter     = Color(light: "#FBF6EA", dark: "#1C2128")
-    public static let scenicEdge       = Color(light: "#EDE6D6", dark: "#121518")
+    public static let scenicCenter     = Color(light: "#F8F7F4", dark: "#22242C")
+    public static let scenicEdge       = Color(light: "#F6F5F2", dark: "#1E1F24")
     /// Star tint for the scenic starfield (very faint on light; the hero suppresses stars there).
-    public static let scenicStar       = Color(light: "#D8CDB6", dark: "#C8CFD8")
+    public static let scenicStar       = Color(light: "#D8D6D0", dark: "#C8CFD8")
 
     /// Frosted-card tint endpoints (white→warm on light; the accent wash sits over them).
     public static let cardFillTop      = Color(light: "#FFFFFF", dark: "#15243C")

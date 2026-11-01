@@ -50,15 +50,15 @@ public struct StatePill: View {
                 .tracking(0.4)
                 .foregroundStyle(tone.color)
         }
-        .padding(.horizontal, 10)
-        .padding(.vertical, 5)
+        .padding(.horizontal, 12)
+        .padding(.vertical, 6)
         .background(
             Capsule(style: .continuous)
-                .fill(tone.color.opacity(0.12))
+                .fill(tone.color.opacity(0.18))
         )
         .overlay(
             Capsule(style: .continuous)
-                .stroke(tone.color.opacity(0.28), lineWidth: 1)
+                .stroke(tone.color.opacity(0.22), lineWidth: 1)
         )
         .accessibilityElement(children: .ignore)
         .accessibilityLabel(title)

@@ -35,9 +35,8 @@ import kotlin.random.Random
 // theme canvas colour over the lower half so the sky dissolves into the page with no seam).
 //
 // The one theme-aware substitution the iOS source itself makes: the SETTLE colour is the canvas the
-// body dissolves into. iOS hard-coded (18,21,24) dark / (242,242,247) light; here it reads the real
-// Android canvas token [Palette.surfaceBase] (dark #121518 == the iOS dark literal; light #EAE3D4 ==
-// the warm-paper canvas), theme-aware via the active palette, so the sky meets the page with no seam.
+// body dissolves into. iOS hard-coded the dark/light settle; here it reads Palette.surfaceBase
+// (dark #1E1F24, light #F6F5F2), theme-aware so the sky meets the page with no seam.
 
 /** One keyframe of the day-cycle sky: the hour it sits at, the three vertical gradient stops
  *  (top/mid/horizon), and how starry / how warm the sky is there. */
@@ -58,19 +57,31 @@ private fun hx(hex: Long): Color = Color(
     alpha = 1f,
 )
 
-/** The ten keyframes mirror the real app's day-cycle scenes (SceneHeroBackground), as pure
- *  gradients rather than painted art. Hex values are byte-identical to the iOS source. */
+/** The ten keyframes mirror Strand/Liquid/LiquidSky.swift (colorful-card pastel atmosphere). */
 val liquidSkyKeys: List<LiquidSkyStop> = listOf(
-    LiquidSkyStop(h = 0.0, top = hx(0x05060f), mid = hx(0x0b0e22), hor = hx(0x1a1440), stars = 1.0, warm = 0.0),
-    LiquidSkyStop(h = 5.0, top = hx(0x0a0d24), mid = hx(0x1c1a4a), hor = hx(0x4a2a6a), stars = 0.6, warm = 0.0),
-    LiquidSkyStop(h = 6.5, top = hx(0x1b1b4d), mid = hx(0x4a2f7d), hor = hx(0xb0567a), stars = 0.25, warm = 0.2),
-    LiquidSkyStop(h = 8.5, top = hx(0x2a4a8f), mid = hx(0x7a5aa0), hor = hx(0xf0a060), stars = 0.0, warm = 0.6),
-    LiquidSkyStop(h = 11.0, top = hx(0x2a6ac8), mid = hx(0x5a9ae0), hor = hx(0xa8cef0), stars = 0.0, warm = 0.95),
-    LiquidSkyStop(h = 14.0, top = hx(0x2f74d0), mid = hx(0x66a6e8), hor = hx(0xb8d8f4), stars = 0.0, warm = 1.0),
-    LiquidSkyStop(h = 17.5, top = hx(0x3a4a90), mid = hx(0x9a5a80), hor = hx(0xf0924a), stars = 0.0, warm = 0.4),
-    LiquidSkyStop(h = 19.5, top = hx(0x221c50), mid = hx(0x4a2a70), hor = hx(0x8a4a80), stars = 0.45, warm = 0.0),
-    LiquidSkyStop(h = 22.0, top = hx(0x070818), mid = hx(0x141335), hor = hx(0x2a1d55), stars = 1.0, warm = 0.0),
-    LiquidSkyStop(h = 24.0, top = hx(0x05060f), mid = hx(0x0b0e22), hor = hx(0x1a1440), stars = 1.0, warm = 0.0),
+    LiquidSkyStop(h = 0.0, top = hx(0x1E1F24), mid = hx(0x22242C), hor = hx(0x282A32), stars = 0.18, warm = 0.0),
+    LiquidSkyStop(h = 5.0, top = hx(0x1F2028), mid = hx(0x23252E), hor = hx(0x2A2C34), stars = 0.10, warm = 0.0),
+    LiquidSkyStop(h = 6.5, top = hx(0x20222A), mid = hx(0x252830), hor = hx(0x2C2E36), stars = 0.05, warm = 0.05),
+    LiquidSkyStop(h = 8.5, top = hx(0x222630), mid = hx(0x283040), hor = hx(0x303848), stars = 0.0, warm = 0.15),
+    LiquidSkyStop(h = 11.0, top = hx(0x243040), mid = hx(0x2A3850), hor = hx(0x324058), stars = 0.0, warm = 0.25),
+    LiquidSkyStop(h = 14.0, top = hx(0x243040), mid = hx(0x2A3850), hor = hx(0x324058), stars = 0.0, warm = 0.28),
+    LiquidSkyStop(h = 17.5, top = hx(0x222630), mid = hx(0x2C3448), hor = hx(0x383C50), stars = 0.0, warm = 0.18),
+    LiquidSkyStop(h = 19.5, top = hx(0x20222A), mid = hx(0x262830), hor = hx(0x2E3038), stars = 0.04, warm = 0.08),
+    LiquidSkyStop(h = 22.0, top = hx(0x1E1F24), mid = hx(0x22242C), hor = hx(0x282A32), stars = 0.14, warm = 0.0),
+    LiquidSkyStop(h = 24.0, top = hx(0x1E1F24), mid = hx(0x22242C), hor = hx(0x282A32), stars = 0.18, warm = 0.0),
+)
+
+private val liquidLightSkyKeys: List<LiquidSkyStop> = listOf(
+    LiquidSkyStop(h = 0.0, top = hx(0xE8EEF5), mid = hx(0xF0F3F8), hor = hx(0xF6F5F2), stars = 0.06, warm = 0.0),
+    LiquidSkyStop(h = 5.0, top = hx(0xEAF0F8), mid = hx(0xF2F5FA), hor = hx(0xF6F5F2), stars = 0.04, warm = 0.0),
+    LiquidSkyStop(h = 6.5, top = hx(0xE3F0FF), mid = hx(0xEDF5FF), hor = hx(0xF6F5F2), stars = 0.02, warm = 0.05),
+    LiquidSkyStop(h = 8.5, top = hx(0xD6EBFF), mid = hx(0xE8F4FF), hor = hx(0xF6F5F2), stars = 0.0, warm = 0.12),
+    LiquidSkyStop(h = 11.0, top = hx(0xCFE5FF), mid = hx(0xE3F0FF), hor = hx(0xF8F7F4), stars = 0.0, warm = 0.18),
+    LiquidSkyStop(h = 14.0, top = hx(0xD4E8FF), mid = hx(0xE8F4FF), hor = hx(0xF8F7F4), stars = 0.0, warm = 0.20),
+    LiquidSkyStop(h = 17.5, top = hx(0xE8F0FF), mid = hx(0xF0F6FF), hor = hx(0xFFF0E8), stars = 0.0, warm = 0.22),
+    LiquidSkyStop(h = 19.5, top = hx(0xEDE8F5), mid = hx(0xF5F0FA), hor = hx(0xFFF2EA), stars = 0.02, warm = 0.15),
+    LiquidSkyStop(h = 22.0, top = hx(0xE8EEF5), mid = hx(0xF0F3F8), hor = hx(0xF6F5F2), stars = 0.05, warm = 0.0),
+    LiquidSkyStop(h = 24.0, top = hx(0xE8EEF5), mid = hx(0xF0F3F8), hor = hx(0xF6F5F2), stars = 0.06, warm = 0.0),
 )
 
 private fun lerp(a: Double, b: Double, t: Double): Double = a + (b - a) * t
@@ -89,11 +100,12 @@ private fun lerpColor(a: Color, b: Color, t: Double): Color {
 
 /** The interpolated sky at a given [hour] (0..24): the three gradient stops plus the star / warm
  *  amounts. Walks the keyframes exactly like the iOS source. */
-fun liquidSkyAt(hour: Double): LiquidSkyResolved {
+fun liquidSkyAt(hour: Double, light: Boolean = Palette.isLight): LiquidSkyResolved {
+    val keys = if (light) liquidLightSkyKeys else liquidSkyKeys
     var i = 0
-    while (i < liquidSkyKeys.size - 2 && liquidSkyKeys[i + 1].h <= hour) i += 1
-    val a = liquidSkyKeys[i]
-    val b = liquidSkyKeys[i + 1]
+    while (i < keys.size - 2 && keys[i + 1].h <= hour) i += 1
+    val a = keys[i]
+    val b = keys[i + 1]
     val t = max(0.0, min(1.0, (hour - a.h) / (b.h - a.h)))
     return LiquidSkyResolved(
         top = lerpColor(a.top, b.top, t),
@@ -240,8 +252,8 @@ private fun androidx.compose.ui.graphics.drawscope.DrawScope.renderLiquidSky(
     )
 }
 
-/** The canvas colour the sky dissolves into — the active theme's surfaceBase (dark #121518 / light
- *  #EAE3D4), read live so a theme flip re-resolves it. Replaces the iOS hard-coded settle literals. */
+/** The canvas colour the sky dissolves into — the active theme's surfaceBase (dark #1E1F24 / light
+ *  #F6F5F2), read live so a theme flip re-resolves it. */
 private val liquidSettleColor: Color
     get() = Palette.surfaceBase
 

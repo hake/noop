@@ -238,7 +238,7 @@ object TrendsReportRenderer {
     private const val MARGIN = 28f
 
     // Palette (raw ARGB — the same hex tokens as Theme.kt's Palette / StrandPalette dark, WHOOP-reset).
-    private const val SURFACE_BASE = 0xFF121518.toInt()
+    private const val SURFACE_BASE = 0xFF1E1F24.toInt()
     private const val CARD_TOP = 0xFF15243C.toInt()
     private const val CARD_BOTTOM = 0xFF0B1424.toInt()
     private const val HAIRLINE = 0xFF21304A.toInt()
