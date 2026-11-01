@@ -226,8 +226,8 @@ public enum ThemePreset: String, CaseIterable, Identifiable, Sendable {
 }
 
 /// The user's appearance preference for the whole app. Persisted via
-/// `@AppStorage(AppearanceMode.storageKey)`. `.system` follows the OS (the default);
-/// `.light` / `.dark` force a scheme regardless of the system setting.
+/// `@AppStorage(AppearanceMode.storageKey)`. The default is `.light` (the colorful-card
+/// canvas). `.system` follows the OS; `.dark` forces the dark scheme.
 ///
 /// Applied once at each app root via `.preferredColorScheme(mode.colorScheme)`. Because every
 /// `StrandPalette` token is a dynamic `Color(light:dark:)`, flipping this re-resolves the entire
@@ -241,6 +241,21 @@ public enum AppearanceMode: String, CaseIterable, Identifiable, Sendable {
 
     /// The @AppStorage key shared by the app roots and the Settings picker.
     public static let storageKey = "theme.appearance"
+    /// One-shot flag for moving the previous "follow the system" default onto Light.
+    public static let colorfulCardDefaultMigrationKey = "theme.appearance.colorfulCardDefault"
+
+    /// Light is the default. Installs that were following the system — the previous
+    /// default, including a missing key — switch to Light once. An explicit Light or Dark
+    /// choice is left alone, and a later choice of System stays System.
+    public static func migrateColorfulCardDefault() {
+        let defaults = UserDefaults.standard
+        guard !defaults.bool(forKey: colorfulCardDefaultMigrationKey) else { return }
+        let raw = defaults.string(forKey: storageKey)
+        if raw == nil || raw == AppearanceMode.system.rawValue {
+            defaults.set(AppearanceMode.light.rawValue, forKey: storageKey)
+        }
+        defaults.set(true, forKey: colorfulCardDefaultMigrationKey)
+    }
 
     /// Human label for the Settings control.
     ///

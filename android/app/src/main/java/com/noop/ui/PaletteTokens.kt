@@ -262,7 +262,7 @@ enum class AppearanceMode(val storageValue: String, val label: String) {
 
     companion object {
         fun fromStorage(raw: String?): AppearanceMode =
-            entries.firstOrNull { it.storageValue == raw } ?: SYSTEM
+            entries.firstOrNull { it.storageValue == raw } ?: LIGHT
     }
 }
 
@@ -290,13 +290,14 @@ enum class GaugeNumeralStyle(val storageValue: String) {
 object AppearancePrefs {
     private const val FILE = "noop_prefs"
     private const val KEY = "theme.appearance"
+    private const val MIGRATION_KEY = "theme.appearance.colorfulCardDefault"
     private const val GAUGE_KEY = "appearance.gaugeNumerals"
 
     private fun prefs(ctx: Context): SharedPreferences =
         ctx.applicationContext.getSharedPreferences(FILE, Context.MODE_PRIVATE)
 
-    /** Live appearance mode read by NoopTheme; defaults to System until [load] runs. */
-    var mode by mutableStateOf(AppearanceMode.SYSTEM)
+    /** Live appearance mode read by NoopTheme. Light until [load] runs, matching the default. */
+    var mode by mutableStateOf(AppearanceMode.LIGHT)
         private set
 
     /**
@@ -309,7 +310,19 @@ object AppearancePrefs {
         private set
 
     fun load(ctx: Context) {
-        mode = AppearanceMode.fromStorage(prefs(ctx).getString(KEY, AppearanceMode.SYSTEM.storageValue))
+        val p = prefs(ctx)
+        // Light is the default. A previous install that was following the system (the old
+        // default, including a missing key) moves to Light once. Explicit Light or Dark stays,
+        // and choosing System afterwards is not rewritten.
+        if (!p.getBoolean(MIGRATION_KEY, false)) {
+            val raw = p.getString(KEY, null)
+            val editor = p.edit()
+            if (raw == null || raw == AppearanceMode.SYSTEM.storageValue) {
+                editor.putString(KEY, AppearanceMode.LIGHT.storageValue)
+            }
+            editor.putBoolean(MIGRATION_KEY, true).apply()
+        }
+        mode = AppearanceMode.fromStorage(p.getString(KEY, AppearanceMode.LIGHT.storageValue))
         gaugeNumerals = GaugeNumeralStyle.fromStorage(
             prefs(ctx).getString(GAUGE_KEY, GaugeNumeralStyle.BOLD.storageValue))
     }
